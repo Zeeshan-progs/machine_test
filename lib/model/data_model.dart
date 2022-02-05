@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class DataModel {
   DataModel({
     this.currentBookings,
@@ -64,6 +66,7 @@ class Package {
     this.id,
     this.packageName,
     this.price,
+    this.more,
     this.description,
   });
 
@@ -71,12 +74,14 @@ class Package {
   String? packageName;
   int? price;
   String? description;
+  RxBool? more;
 
   factory Package.fromJson(Map<String, dynamic> json) => Package(
         id: json["id"] ?? '',
         packageName: json["package_name"] ?? '',
         price: json["price"] ?? '',
         description: json["description"] ?? '',
+        more: false.obs,
       );
 
   Map<String, dynamic> toJson() => {

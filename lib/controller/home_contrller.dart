@@ -32,11 +32,12 @@ class HomeController extends GetxController {
   }
 
   Future getData() async {
+    loading.value = false;
     GetConnect().get('http://cgprojects.in/flutter/').then((value) {
       if (value.isOk) {
         Map<String, dynamic> convert =
             jsonDecode(value.body) as Map<String, dynamic>;
-        print(convert);
+
         var model = DataModel.fromJson(convert);
         if (model.currentBookings != null && model.packages!.isNotEmpty) {
           currentBooking.value = model.currentBookings!;
