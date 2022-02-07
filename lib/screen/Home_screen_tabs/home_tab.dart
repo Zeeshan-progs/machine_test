@@ -16,8 +16,9 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: Get.height,
+        color: Colors.white,
         width: Get.width,
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Obx(
           () => controller.loading.isTrue
               ? RefreshIndicator(
@@ -27,12 +28,16 @@ class HomeTab extends StatelessWidget {
                   child: ListView(
                     children: [
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: controller.isDrawerOpen.isTrue
+                            ? Alignment.topLeft
+                            : Alignment.topRight,
                         child: controller.isDrawerOpen.isTrue
                             ? IconButton(
                                 onPressed: controller.backButtonTap,
-                                icon: const Icon(
-                                  Icons.arrow_back,
+                                icon: Icon(
+                                  Platform.isAndroid
+                                      ? Icons.arrow_back
+                                      : Icons.arrow_back_ios,
                                   color: ColorConstants.darkPink,
                                   size: 25,
                                 ),
@@ -59,7 +64,7 @@ class HomeTab extends StatelessWidget {
                               width: 2,
                             ),
                             image: const DecorationImage(
-                              image: AssetImage('assets/profile.png'),
+                              image: AssetImage('assets/image 1.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -67,90 +72,33 @@ class HomeTab extends StatelessWidget {
                         title: Text(
                           'Welcome',
                           style: FontConstant.boldFont.copyWith(
-                            color: ColorConstants.darkBlue,
+                            color: Colors.black,
                           ),
                         ),
                         subtitle: Text(
-                          'md zeeshan iqbal'.capitalize!,
+                          'Emily Cyrus'.capitalize!,
                           style: FontConstant.getCustomFont(
                             18,
                             ColorConstants.darkPink,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                       // paddingAll(14),
-                      Container(
-                        height: Get.height / 3,
-                        width: Get.width,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              bottom: 0,
-                              child: Container(
-                                height: Get.height / 4,
-                                width: Get.width,
-                                decoration: BoxDecoration(
-                                  color: ColorConstants.lightPink,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 10,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: Get.width * .6,
-                                      child: Text(
-                                        'Nanny And Babysitting Services',
-                                        style: FontConstant.getCustomFont(
-                                          20,
-                                          ColorConstants.darkBlue,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: buildElevatedButton(
-                                        'Book now',
-                                        color: ColorConstants.darkBlue,
-                                        onTap: () {},
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Image.asset(
-                                'assets/nanny.png',
-                                width: Get.width * 0.3,
-                                height: Get.height / 3.4,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                      buildNannyBanner(),
 
-                      buildSizedBox(),
                       buildLabel('Current Booking'),
-
+                      buildSizedBox(),
                       Card(
                         color: Colors.white,
-                        elevation: 3,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 7),
+                        elevation: 4,
+                        shadowColor: Colors.black87,
+                        margin: const EdgeInsets.symmetric(vertical: 7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 5.0),
+                              horizontal: 12.0, vertical: 8),
                           child: Column(
                             children: [
                               Row(
@@ -158,9 +106,11 @@ class HomeTab extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'your current plan',
-                                    style: FontConstant.boldFont.copyWith(
-                                      color: ColorConstants.darkPink,
+                                    'One Day Package',
+                                    style: FontConstant.getCustomFont(
+                                      16,
+                                      ColorConstants.darkPink,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   buildElevatedButton('Start now',
@@ -172,13 +122,17 @@ class HomeTab extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    'From',
-                                    style: FontConstant.normalFont,
+                                  Expanded(
+                                    child: Text(
+                                      'From',
+                                      style: FontConstant.normalFont,
+                                    ),
                                   ),
-                                  Text(
-                                    'To',
-                                    style: FontConstant.normalFont,
+                                  Expanded(
+                                    child: Text(
+                                      'To',
+                                      style: FontConstant.normalFont,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -188,14 +142,14 @@ class HomeTab extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: buildRow(
-                                        icon: Icons.calendar_today,
+                                        icon: CupertinoIcons.calendar,
                                         label: controller
                                             .currentBooking.value.fromDate!,
                                       ),
                                     ),
                                     Expanded(
                                       child: buildRow(
-                                        icon: Icons.calendar_today,
+                                        icon: CupertinoIcons.calendar,
                                         label: controller
                                             .currentBooking.value.toDate!,
                                       ),
@@ -209,14 +163,14 @@ class HomeTab extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: buildRow(
-                                        icon: Icons.timer_sharp,
+                                        icon: CupertinoIcons.clock,
                                         label: controller
                                             .currentBooking.value.fromTime!,
                                       ),
                                     ),
                                     Expanded(
                                       child: buildRow(
-                                        icon: Icons.timer_sharp,
+                                        icon: CupertinoIcons.clock,
                                         label: controller
                                             .currentBooking.value.toTime!,
                                       ),
@@ -225,24 +179,26 @@ class HomeTab extends StatelessWidget {
                                 ),
                               ),
                               buildSizedBox(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                              Wrap(
+                                spacing: 3,
                                 children: [
                                   buildElevatedButton(
                                     'Rate Us',
                                     color: ColorConstants.darkBlue,
                                     onTap: () {},
+                                    icon: Icons.star_border,
                                   ),
                                   buildElevatedButton(
-                                    'Contributions',
+                                    'Geolocation',
                                     color: ColorConstants.darkBlue,
                                     onTap: () {},
+                                    icon: Icons.location_on_outlined,
                                   ),
                                   buildElevatedButton(
                                     'Surveillance',
                                     color: ColorConstants.darkBlue,
                                     onTap: () {},
+                                    icon: CupertinoIcons.mic_slash,
                                   ),
                                 ],
                               )
@@ -273,11 +229,81 @@ class HomeTab extends StatelessWidget {
         ));
   }
 
+  Widget buildNannyBanner() {
+    return SizedBox(
+      height: Get.height / 3,
+      width: Get.width,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: Get.height / 4,
+              width: Get.width * .9,
+              decoration: BoxDecoration(
+                color: ColorConstants.lightPink,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 10,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: Get.width * .5,
+                    child: Text(
+                      'Nanny And\nBabysitting Services',
+                      style: FontConstant.getCustomFont(
+                        18,
+                        ColorConstants.darkBlue,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  buildSizedBox(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: buildElevatedButton(
+                      'Book now',
+                      color: ColorConstants.darkBlue,
+                      onTap: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Image.asset(
+              'assets/Group.png',
+              width: Get.width / 1.4,
+              height: Get.height / 3,
+              fit: BoxFit.fill,
+              alignment: Alignment.bottomRight,
+              gaplessPlayback: true,
+              scale: 1,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Container buildContainer(int index, Package data) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 7, 16, 6),
+      padding: const EdgeInsets.fromLTRB(16, 15, 16, 15),
       margin: const EdgeInsets.symmetric(vertical: 8),
-      color: index.isEven ? ColorConstants.lightPink : ColorConstants.lightBlue,
+      decoration: BoxDecoration(
+        color:
+            index.isEven ? ColorConstants.lightPink : ColorConstants.lightBlue,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,10 +311,14 @@ class HomeTab extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
-                CupertinoIcons.calendar,
-                size: 25,
-                color: index.isEven ? ColorConstants.darkPink : Colors.white,
+              Image.asset(
+                'assets/cal.png',
+                height: 25,
+                width: 25,
+                fit: BoxFit.cover,
+                color: index == controller.packages.length - 1
+                    ? Colors.white
+                    : ColorConstants.darkPink,
               ),
               buildElevatedButton('Book Now',
                   color: index.isEven
@@ -303,26 +333,29 @@ class HomeTab extends StatelessWidget {
             children: [
               Text(
                 '${data.packageName}',
-                style: FontConstant.normalFont.copyWith(
-                  color: index.isEven ? ColorConstants.darkPink : Colors.white,
+                style: FontConstant.getCustomFont(
+                  16,
+                  ColorConstants.darkBlue,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
                 '₹ ${data.price}',
-                style: FontConstant.boldFont.copyWith(
-                  color: ColorConstants.darkBlue,
-                  letterSpacing: 0,
+                style: FontConstant.getCustomFont(
+                  16,
+                  ColorConstants.darkBlue,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: description(
-              '${data.description}',
-              data,
-            ),
-          )
+          buildSizedBox(),
+          description(
+            '${data.description}',
+            data,
+            index,
+          ),
+          buildSizedBox(),
         ],
       ),
     );
@@ -339,7 +372,11 @@ class HomeTab extends StatelessWidget {
         const SizedBox(width: 15),
         Text(
           label,
-          style: FontConstant.normalFont,
+          style: FontConstant.getCustomFont(
+            16,
+            ColorConstants.offWhite,
+            fontWeight: FontWeight.w600,
+          ),
         )
       ],
     );
@@ -352,8 +389,10 @@ class HomeTab extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3),
       child: Text(
         text.capitalize!,
-        style: FontConstant.boldFont.copyWith(
-          color: ColorConstants.darkBlue,
+        style: FontConstant.getCustomFont(
+          20,
+          ColorConstants.darkBlue,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
@@ -363,22 +402,35 @@ class HomeTab extends StatelessWidget {
     String text, {
     required Color color,
     Function()? onTap,
+    IconData? icon,
   }) {
     return ElevatedButton(
       onPressed: onTap,
-      child: Text(
-        text.capitalize!,
-        style: FontConstant.normalFont.copyWith(
-          color: Colors.white,
-          fontSize: 13,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 4.0),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 15,
+              ),
+            ),
+          Text(
+            text.capitalize!,
+            style: FontConstant.getCustomFont(
+              13,
+              Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       ),
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 0,
-        ),
         primary: color,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -388,22 +440,19 @@ class HomeTab extends StatelessWidget {
 
   SizedBox buildSizedBox() => const SizedBox(height: 20);
 
-  Widget description(String text, Package data) {
+  Widget description(String text, Package data, int index) {
     return Obx(
       () => RichText(
+        maxLines: data.more!.isFalse ? 2 : null,
         text: TextSpan(
-            style: FontConstant.boldFont.copyWith(
-              color: Colors.grey,
+            style: FontConstant.getCustomFont(
+              13,
+              index == controller.packages.length - 1
+                  ? Colors.white
+                  : ColorConstants.offWhite,
+              fontWeight: FontWeight.w500,
             ),
-            text: data.more!.isFalse
-                ? text.length > 50
-                    ? text.substring(
-                          0,
-                          45,
-                        ) +
-                        ' .... ${data.more!.isTrue ? 'Show Less' : 'Show More'}'
-                    : text
-                : text,
+            text: text,
             recognizer: TapGestureRecognizer()
               ..onTap = () => data.more!.value = !data.more!.value),
       ),

@@ -29,11 +29,11 @@ class HomeScreen extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: controller.isDrawerOpen.isTrue
-                  ? ColorConstants.lightPink.withOpacity(.2)
+                  ? Colors.black.withOpacity(.2)
                   : Colors.transparent,
-              blurRadius: 8,
-              spreadRadius: 15,
-              offset: const Offset(10.0, 10.0),
+              blurRadius: 4,
+              spreadRadius: 3,
+              offset: const Offset(2.0, 0.0),
             ),
           ],
           borderRadius: BorderRadius.circular(

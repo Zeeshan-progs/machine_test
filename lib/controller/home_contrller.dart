@@ -19,9 +19,9 @@ class HomeController extends GetxController {
 
   void menuButtonTap() {
     isDrawerOpen.value = true;
-    xOffset.value = Get.width * 0.5;
-    yOffset.value = Get.height * 0.2;
-    scaleFactor.value = .7;
+    xOffset.value = Get.width * 0.6;
+    yOffset.value = Get.height * 0.05;
+    scaleFactor.value = .9;
   }
 
   void backButtonTap() {

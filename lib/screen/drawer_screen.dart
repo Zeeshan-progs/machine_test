@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:machine_test/constants/app_constants.dart';
@@ -20,8 +21,8 @@ class DrawerScreen extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                height: 60,
-                width: 60,
+                height: 70,
+                width: 70,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -29,7 +30,7 @@ class DrawerScreen extends StatelessWidget {
                     width: 2,
                   ),
                   image: const DecorationImage(
-                    image: AssetImage('assets/profile.png'),
+                    image: AssetImage('assets/image 1.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -39,14 +40,17 @@ class DrawerScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Md Zeeshan iqbal'.capitalize!,
-                  style: FontConstant.normalFont.copyWith(
-                    color: ColorConstants.darkPink,
+                  'Emily Cyrus'.capitalize!,
+                  style: FontConstant.getCustomFont(
+                    20,
+                    ColorConstants.darkPink,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
             ),
             buildTextButton('Home'),
+            buildDivider(),
             buildTextButton('Book Now '),
             buildDivider(),
             buildTextButton('How It Work'),
@@ -54,6 +58,7 @@ class DrawerScreen extends StatelessWidget {
             buildTextButton('Why Nanny Vanny '),
             buildDivider(),
             buildTextButton('My Booking'),
+            buildDivider(),
             buildTextButton('my Profile'),
             buildDivider(),
             buildTextButton('Support'),
@@ -65,7 +70,8 @@ class DrawerScreen extends StatelessWidget {
 
   Divider buildDivider() {
     return Divider(
-      endIndent: Get.width / 3,
+      endIndent: Get.width / 4,
+      thickness: .4,
       color: ColorConstants.darkPink,
     );
   }
@@ -74,8 +80,10 @@ class DrawerScreen extends StatelessWidget {
         onPressed: () {},
         child: Text(
           text.capitalize!,
-          style: FontConstant.boldFont.copyWith(
-            color: ColorConstants.darkBlue,
+          style: FontConstant.getCustomFont(
+            18,
+            ColorConstants.darkBlue,
+            fontWeight: FontWeight.w500,
           ),
         ),
       );
